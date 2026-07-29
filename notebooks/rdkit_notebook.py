@@ -22,6 +22,8 @@ def _(mo):
 
 @app.cell
 def _():
+    import marimo as mo
+    
     from rdkit import Chem, DataStructs, RDLogger
     from rdkit.Chem import (
         Descriptors, Draw, QED, rdFingerprintGenerator,
