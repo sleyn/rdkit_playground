@@ -1,8 +1,10 @@
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/sleyn/rdkit_playground/blob/main/notebooks/rdkit_notebook.py)
+
 # rdkit_playground
 
 The goal for this repo was to get comfortable with the core RDKit workflows.
 
-Everything lives in a single [marimo](https://marimo.io/) notebook, reactive and runnable end-to-end, walking through the basics one topic at a time.
+Everything lives in a single [marimo]([https://marimo.io/](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/sleyn/rdkit_playground/blob/main/notebooks/rdkit_notebook.py)) notebook, reactive and runnable end-to-end, walking through the basics one topic at a time.
 
 ## Stack
 
