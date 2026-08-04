@@ -1,7 +1,7 @@
-import marimo as mo
+import marimo
 
-__generated_with = "0.23.14"
-app = mo.App()
+__generated_with = "0.23.16"
+app = marimo.App()
 
 
 @app.cell
@@ -23,7 +23,7 @@ def _(mo):
 @app.cell
 def _():
     import marimo as mo
-    
+
     from rdkit import Chem, DataStructs, RDLogger
     from rdkit.Chem import (
         Descriptors, Draw, QED, rdFingerprintGenerator,
@@ -47,6 +47,7 @@ def _():
         MurckoScaffold,
         QED,
         RDLogger,
+        mo,
         pd,
         rdFingerprintGenerator,
         rdMolAlign,
@@ -146,7 +147,6 @@ def _(Chem, Mol, molecule: "Mol"):
     # Add explicit Hydrogen nodes to the graph
     molecule_with_h: Mol = Chem.AddHs(molecule)
     print(f'atoms: {molecule_with_h.GetNumAtoms()} | heavy: {molecule_with_h.GetNumHeavyAtoms()}')
-
     return
 
 
@@ -307,7 +307,7 @@ def _(
             "RotB": rdMolDescriptors.CalcNumRotatableBonds(m),
             "QED": round(QED.qed(m), 3),
         })
-    
+
     df: DataFrame = pd.DataFrame(rows)
     df
     return (df,)
@@ -471,7 +471,6 @@ def _(FilterCatalog, FilterCatalogParams, mols: "dict[str, Mol]"):
     catalog = FilterCatalog(params)
     flagged = {n: catalog.HasMatch(m) for n, m in mols.items()}
     print("\nPAINS flagged:", {k: v for k, v in flagged.items() if v} or "none")
-
     return
 
 
@@ -568,7 +567,12 @@ def _(
     energies: list[tuple[int, float]],
     ibuprofen_explicit_hydro: "Mol",
 ):
-    with Chem.SDWriter("../data/ibuprofen_best.sdf") as w:
+    from pathlib import Path
+
+    output_file = Path("data/ibuprofen_best.sdf")
+    Path(output_file.parent).mkdir(parents=True, exist_ok=True)
+
+    with Chem.SDWriter(output_file) as w:
             ibuprofen_explicit_hydro.SetProp("_Name", "ibuprofen")
             ibuprofen_explicit_hydro.SetProp("MMFF_energy", f"{energies[0][1]:.3f}")
             w.write(ibuprofen_explicit_hydro, confId=energies[0][0])
@@ -654,7 +658,6 @@ def _(
 
     df_pipe = pd.DataFrame(records)
     print(f'parsed {len(df)} / {len(raw_pipedata)}  ({failures} failed)')
-
     return (df_pipe,)
 
 
@@ -692,7 +695,6 @@ def _(df_filtered: "DataFrame"):
     print("final table:")
     df_pipe_final = df_filtered.drop(columns="_fp").round(2)
     df_pipe_final
-
     return
 
 
